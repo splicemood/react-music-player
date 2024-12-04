@@ -1,0 +1,86 @@
+.root {
+  display: flex;
+  position: relative;
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8));
+  padding: var(--mantine-spacing-sm);
+  border-radius: var(--mantine-radius-md);
+}
+
+.indicator {
+  z-index: 10;
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
+  border-radius: var(--mantine-radius-md);
+  box-shadow: var(--mantine-shadow-md);
+  border: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4));
+}
+
+.playlistMenu {
+  color: transparent;
+  transition: color .3s ease;
+
+  &[data-active] {
+    color: text;
+    transition: color .07s ease;
+  }
+}
+
+.controlsGroup {
+  position: relative;
+  z-index: 20;
+  display: flex;
+}
+
+.flex {
+  width: 50px;
+  height: 50px;
+  display: flex;
+}
+
+.actionIconRight {
+  position: absolute;
+  top: calc(50% - 12px);
+  left: calc(100% - 10px);
+}
+
+.actionIconLeft {
+  position: absolute;
+  top: calc(50% - 12px);
+  left: -16px;
+}
+
+.control {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--mantine-radius-sm);
+
+  & svg {
+    opacity: 1;
+    transition: all .3s cubic-bezier(0.14, 0.8, 0.26, 0.88);
+  }
+
+  &[data-active] {
+    background-color: rgba(0, 0, 0, 0.5)
+  }
+
+  &:not([data-active]) svg {
+    opacity: 0;
+  }
+
+  &:not([data-active]):hover svg {
+    opacity: 1;
+  }
+
+  @mixin hover {
+    background-color: rgba(0, 0, 0, 0.5)
+  }
+
+  & svg {
+    opacity: 1;
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+    position: relative;
+    z-index: 10;
+  }
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Слой 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#828282"/>
+  <path d="m5.07,5.07h21.85v21.85H5.07V5.07Z" fill="none"/>
+  <path d="m7.81,20.55c0,1.55,1.18,2.73,2.73,2.73s2.73-1.18,2.73-2.73-1.18-2.73-2.73-2.73-2.73,1.18-2.73,2.73" fill="none" stroke="#3d3d3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <path d="m16.91,20.55c0,1.55,1.18,2.73,2.73,2.73s2.73-1.18,2.73-2.73-1.18-2.73-2.73-2.73-2.73,1.18-2.73,2.73" fill="none" stroke="#3d3d3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <path d="m13.27,20.55v-11.84h9.11v11.84" fill="none" stroke="#3d3d3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <path d="m13.27,12.36h9.11" fill="none" stroke="#3d3d3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+</svg>

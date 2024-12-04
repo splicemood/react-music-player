@@ -1,0 +1,38 @@
+.mantine-Slider-root[data-loading] > .mantine-Slider-trackContainer > .mantine-Slider-track {
+  &::before {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iYSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjU2IDEyOCI+CiAgPHJlY3Qgd2lkdGg9IjI1NiIgaGVpZ2h0PSIxMjgiIGZpbGw9IiNhZGI1YmQiLz4KICA8cGF0aCBkPSJtMTMzLjc5LDEyOEgwTDExMS4yMSwwaDEzMy43OWwtMTExLjIxLDEyOFoiIGZpbGw9IiNjZWQ0ZGEiLz4KPC9zdmc+');
+    background-size: 20px 10px;
+    background-position: 0 0;
+    animation: move-stripes 2s infinite linear;
+    height: 8px;
+    z-index: 2;
+    border-radius: 100px;
+  }
+
+  & .mantine-Slider-thumb {
+    visibility: hidden;
+  }
+}
+
+.mantine-Slider-root[data-timer] > .mantine-Slider-trackContainer > .mantine-Slider-track::after {
+  content: '';
+  display: block;
+  position: relative;
+  border-radius: var(--slider-radius);
+  background-color: var(--mantine-color-gray-6);
+  height: var(--slider-size);
+  transition: width .5s ease;
+  width: calc(var(--progress-bar) + var(--slider-size));
+}
+
+@keyframes move-stripes {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 20px 0;
+  }
+}
