@@ -47,7 +47,7 @@ const PlayPausePage = () => {
   return (
     <Layout>
       <Stack gap={'xs'}>
-        <Stack justify={'space-between'}>
+        <Stack>
           <Badges />
           <Title order={2}>Play/Pause Sync Demo</Title>
         </Stack>

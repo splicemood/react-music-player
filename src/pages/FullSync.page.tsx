@@ -50,7 +50,7 @@ const HomePage = () => {
   return (
     <Layout>
       <Stack gap={'xs'}>
-        <Stack justify={'space-between'}>
+        <Stack>
           <Badges />
           <Title order={2}>Full Sync Demo</Title>
         </Stack>
