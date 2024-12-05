@@ -266,6 +266,15 @@ export const PlayerNoSyncProvider = ({ children }: any) => {
     };
   }, [handleProgress, handleTrackEnded, handleTrackUpdateTime, handleTrackDurationChanged]);
 
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+  }, []);
+
   const value = {
     play,
     pause,
