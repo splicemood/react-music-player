@@ -1,5 +1,5 @@
 import { parseWebStream } from 'music-metadata';
-import { metadataBytesLength } from '@/providers/consts';
+import { maxPercentage, metadataBytesLength } from '@/providers/consts';
 import { Time } from '@/shared/types';
 
 export function secondsToMinutesAndSeconds(time: number): Time {
@@ -76,5 +76,5 @@ export const fetchDuration = (songs: string[]): Promise<void | number[]> =>
   });
 
 export const percentToValue = (percent: number) => {
-  return Math.round(percent) / 100;
+  return Math.round(percent) / maxPercentage;
 };

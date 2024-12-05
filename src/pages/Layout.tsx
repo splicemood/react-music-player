@@ -42,7 +42,6 @@ export function Layout({ children }: any) {
         if (audio.volumePercent === maxVolume) return;
         const newVolume = audio.volumePercent + volumeStep;
         if (newVolume > maxVolume) {
-          console.log();
           audio.setVolumePercent(maxVolume);
           return;
         }
