@@ -1,72 +1,72 @@
 [
   {
     "id": 11,
-    "cover": "/covers/image11.jpg",
+    "cover": "/react-music-player/covers/image11.jpg",
     "title": "Castle of Flow",
     "author": "Freesound",
-    "src": "/music/music11.mp3"
+    "src": "/react-music-player/music/music11.mp3"
   },
   {
     "id": 12,
-    "cover": "/covers/image12.jpg",
+    "cover": "/react-music-player/covers/image12.jpg",
     "title": "Elastic Nightmare",
     "author": "Freesound",
-    "src": "/music/music12.mp3"
+    "src": "/react-music-player/music/music12.mp3"
   },
   {
     "id": 13,
-    "cover": "/covers/image13.jpg",
+    "cover": "/react-music-player/covers/image13.jpg",
     "title": "Afraid Of Motion",
     "author": "Freesound",
-    "src": "/music/music13.mp3"
+    "src": "/react-music-player/music/music13.mp3"
   },
   {
     "id": 14,
-    "cover": "/covers/image14.jpg",
+    "cover": "/react-music-player/covers/image14.jpg",
     "title": "Heavy Train",
     "author": "Freesound",
-    "src": "/music/music14.mp3"
+    "src": "/react-music-player/music/music14.mp3"
   },
   {
     "id": 15,
-    "cover": "/covers/image15.jpg",
+    "cover": "/react-music-player/covers/image15.jpg",
     "title": "Teen Gems",
     "author": "Freesound",
-    "src": "/music/music15.mp3"
+    "src": "/react-music-player/music/music15.mp3"
   },
   {
     "id": 16,
-    "cover": "/covers/image16.jpg",
+    "cover": "/react-music-player/covers/image16.jpg",
     "title": "Think Of Light",
     "author": "Freesound",
-    "src": "/music/music16.mp3"
+    "src": "/react-music-player/music/music16.mp3"
   },
   {
     "id": 17,
-    "cover": "/covers/image17.jpg",
+    "cover": "/react-music-player/covers/image17.jpg",
     "title": "Fire Of Gold Country",
     "author": "Freesound",
-    "src": "/music/music17.mp3"
+    "src": "/react-music-player/music/music17.mp3"
   },
   {
     "id": 18,
-    "cover": "/covers/image18.jpg",
+    "cover": "/react-music-player/covers/image18.jpg",
     "title": "Talk About Loop",
     "author": "Freesound",
-    "src": "/music/music18.mp3"
+    "src": "/react-music-player/music/music18.mp3"
   },
   {
     "id": 19,
-    "cover": "/covers/image19.jpg",
+    "cover": "/react-music-player/covers/image19.jpg",
     "title": "Paradise Of World",
     "author": "Freesound",
-    "src": "/music/music19.mp3"
+    "src": "/react-music-player/music/music19.mp3"
   },
   {
     "id": 20,
-    "cover": "/covers/image20.jpg",
+    "cover": "/react-music-player/covers/image20.jpg",
     "title": "Breather Curiosity",
     "author": "Freesound",
-    "src": "/music/music20.mp3"
+    "src": "/react-music-player/music/music20.mp3"
   }
 ]

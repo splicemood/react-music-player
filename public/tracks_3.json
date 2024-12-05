@@ -1,72 +1,72 @@
 [
   {
     "id": 21,
-    "cover": "/covers/image21.jpg",
+    "cover": "/react-music-player/covers/image21.jpg",
     "title": "Across the Mountains",
     "author": "Freesound",
-    "src": "/music/music21.mp3"
+    "src": "/react-music-player/music/music21.mp3"
   },
   {
     "id": 22,
-    "cover": "/covers/image22.jpg",
+    "cover": "/react-music-player/covers/image22.jpg",
     "title": "Toy Without Eyes",
     "author": "Freesound",
-    "src": "/music/music22.mp3"
+    "src": "/react-music-player/music/music22.mp3"
   },
   {
     "id": 23,
-    "cover": "/covers/image23.jpg",
+    "cover": "/react-music-player/covers/image23.jpg",
     "title": "Memories Of Sauce",
     "author": "Freesound",
-    "src": "/music/music23.mp3"
+    "src": "/react-music-player/music/music23.mp3"
   },
   {
     "id": 24,
-    "cover": "/covers/image24.jpg",
+    "cover": "/react-music-player/covers/image24.jpg",
     "title": "Discover Feelings",
     "author": "Freesound",
-    "src": "/music/music24.mp3"
+    "src": "/react-music-player/music/music24.mp3"
   },
   {
     "id": 25,
-    "cover": "/covers/image25.jpg",
+    "cover": "/react-music-player/covers/image25.jpg",
     "title": "Just Chill",
     "author": "Freesound",
-    "src": "/music/music25.mp3"
+    "src": "/react-music-player/music/music25.mp3"
   },
   {
     "id": 26,
-    "cover": "",
+    "cover": "/react-music-player",
     "title": "Easy Rythem",
     "author": "Freesound",
-    "src": "/music/music26.mp3"
+    "src": "/react-music-player/music/music26.mp3"
   },
   {
     "id": 27,
-    "cover": "/covers/image27.jpg",
+    "cover": "/react-music-player/covers/image27.jpg",
     "title": "True Nocturno",
     "author": "Freesound",
-    "src": "/music/music27.mp3"
+    "src": "/react-music-player/music/music27.mp3"
   },
   {
     "id": 28,
-    "cover": "/covers/image28.jpg",
+    "cover": "/react-music-player/covers/image28.jpg",
     "title": "Across the Mountains",
     "author": "Freesound",
-    "src": "/music/music28.mp3"
+    "src": "/react-music-player/music/music28.mp3"
   },
   {
     "id": 29,
-    "cover": "/covers/image29.jpg",
+    "cover": "/react-music-player/covers/image29.jpg",
     "title": "Modren Nightmare",
     "author": "Freesound",
-    "src": "/music/music29.mp3"
+    "src": "/react-music-player/music/music29.mp3"
   },
   {
     "id": 30,
-    "cover": "/covers/image30.jpg",
+    "cover": "/react-music-player/covers/image30.jpg",
     "title": "Only Fete",
     "author": "Freesound",
-    "src": "/music/music30.mp3"
+    "src": "/react-music-player/music/music30.mp3"
   }
 ]
