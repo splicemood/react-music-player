@@ -15,7 +15,7 @@ export function NothingFoundBackground() {
             page has been moved to another URL. If you think this is an error contact support.
           </Text>
           <Group justify="center">
-            <Button size="md" component={Link} to={'/'}>
+            <Button size="md" component={Link} to={'/react-music-player/#'}>
               Take me back to home page
             </Button>
           </Group>

@@ -1,22 +1,21 @@
 import {
-  createBrowserRouter,
+  createHashRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from 'react-router-dom';
 import { NothingFoundBackground } from '@/components/NothingFoundBackground/NothingFoundBackground';
+import NoSyncPage from '@/pages/NoSync.page';
 import PlayPausePage from '@/pages/PlayPause.page';
 import { PlayerFullSyncProvider } from '@/providers/PlayerFullSyncProvider';
 import { PlayerNoSyncProvider } from '@/providers/PlayerNoSyncProvider';
 import { PlayerPlayPauseSyncProvider } from '@/providers/PlayerPlayPauseSyncProvider';
 import HomePage from './pages/FullSync.page';
-import NoSyncPage from '@/pages/NoSync.page';
 
 const routes = createRoutesFromElements(
   <Route>
-    <Route path={'*'} element={<NothingFoundBackground />} />
     <Route
-      path={'/'}
+      index
       element={
         <PlayerFullSyncProvider>
           <HomePage />
@@ -24,7 +23,7 @@ const routes = createRoutesFromElements(
       }
     />
     <Route
-      path={'/playpause'}
+      path={'playpause'}
       element={
         <PlayerPlayPauseSyncProvider>
           <PlayPausePage />
@@ -32,17 +31,18 @@ const routes = createRoutesFromElements(
       }
     />
     <Route
-      path={'/nosync'}
+      path={'nosync'}
       element={
         <PlayerNoSyncProvider>
           <NoSyncPage />
         </PlayerNoSyncProvider>
       }
     />
+    <Route path={'*'} element={<NothingFoundBackground />} />
   </Route>
 );
 
-const router = createBrowserRouter(routes);
+const router = createHashRouter(routes);
 
 export function Router() {
   return <RouterProvider router={router} />;

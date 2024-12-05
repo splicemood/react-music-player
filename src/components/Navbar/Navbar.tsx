@@ -3,9 +3,9 @@ import { AppShell, ScrollArea } from '@mantine/core';
 import { LinkButton } from '@/components/Navbar/LinkButton';
 
 const navigation = [
-  { label: 'Full Sync', to: '/' },
-  { label: 'Play/Pause Sync', to: '/playpause' },
-  { label: 'No Sync', to: '/nosync' },
+  { label: 'Full Sync', to: '/react-music-player/#' },
+  { label: 'Play/Pause Sync', to: '/react-music-player/#/playpause' },
+  { label: 'No Sync', to: '/react-music-player/#/nosync' },
 ];
 
 const navbar = navigation.map((route, index) => <LinkButton key={index} {...route} />);
