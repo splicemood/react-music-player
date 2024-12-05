@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { Group, Kbd, Stack, Text, Title } from '@mantine/core';
+import { Stack, Title } from '@mantine/core';
 import { useDisclosure, useHotkeys, useLocalStorage } from '@mantine/hooks';
 import Badges from '@/components/Badges/Badges';
 import Credits from '@/components/Credits/Credits';
@@ -50,10 +50,10 @@ const HomePage = () => {
   return (
     <Layout>
       <Stack gap={'xs'}>
-        <Group justify={"space-between"}>
+        <Stack justify={'space-between'}>
           <Badges />
           <Title order={2}>Full Sync Demo</Title>
-        </Group>
+        </Stack>
         <HotKeys opened={openedModal} close={closeModal} />
         <PlayList nextPlaylist={handleNextPlaylist} prevPlaylist={handlePrevPlaylist} />
         <Credits />
