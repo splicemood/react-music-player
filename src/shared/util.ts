@@ -51,6 +51,10 @@ const getAudioDuration = (url: string): Promise<number> => {
         reject('Server does not support range requests.');
       }
       const webStream = response.body;
+      if (webStream === null) {
+        reject('webStream is null')
+        return
+      }
 
       const metadata = await parseWebStream(webStream, 'audio/mpeg');
 
