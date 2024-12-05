@@ -28,7 +28,7 @@ import { Time } from '@/shared/types';
 import { secondsToMinutesAndSeconds } from '@/shared/util';
 
 const debouncePassUpdateUnlock = 50;
-const fallbackSrc = '/icons/thumbnail.svg';
+const fallbackSrc = '/react-music-player/icons/thumbnail.svg';
 
 const GlobalAudioPlayer = () => {
   const audio = useAudio();

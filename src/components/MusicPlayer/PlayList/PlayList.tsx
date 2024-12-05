@@ -39,7 +39,7 @@ const CoverButton = ({ cover, onClick, ref, isPlaying, isActive }: PlayListRowPr
 
   const background = useMemo(
     () =>
-      [cover, '/icons/thumbnail.svg']
+      [cover, '/react-music-player/icons/thumbnail.svg']
         .filter(Boolean)
         .map((image) => `url(${image})`)
         .join(','),
