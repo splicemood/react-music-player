@@ -8,6 +8,11 @@ This music player comes with the following features:
 - Play/Pause tab synchronization
 - No sync
 
+## Web browsers compatibility (Can I Use >96%)
+
+- [BroadcastChannel](https://caniuse.com/broadcastchannel)
+- [Window API: storage event](https://caniuse.com/mdn-api_window_storage_event)
+
 ## npm scripts
 
 ## Build and dev scripts
