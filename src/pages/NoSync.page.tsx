@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Kbd, Stack, Text, Title } from '@mantine/core';
+import {Group, Kbd, Stack, Text, Title} from '@mantine/core';
 import { useDisclosure, useHotkeys } from '@mantine/hooks';
 import HotKeys from '@/components/MusicPlayer/HotKeys/HotKeys';
 import PlayList from '@/components/MusicPlayer/PlayList/PlayList';
@@ -7,6 +7,7 @@ import { Layout } from '@/pages/Layout';
 import { useAudio } from '@/providers/useAudio';
 import { SongMetadata } from '@/shared/types';
 import Credits from '@/components/Credits/Credits';
+import Badges from "@/components/Badges/Badges";
 
 const NoSyncPage = () => {
   const audio = useAudio();
@@ -46,7 +47,10 @@ const NoSyncPage = () => {
   return (
     <Layout>
       <Stack gap={'xs'}>
-        <Title order={2}>No Sync Demo</Title>
+        <Group justify={"space-between"}>
+          <Badges />
+          <Title order={2}>No Sync Demo</Title>
+        </Group>
         <HotKeys opened={openedModal} close={closeModal} />
         <PlayList nextPlaylist={handleNextPlaylist} prevPlaylist={handlePrevPlaylist} />
        <Credits/>

@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
-import { Kbd, Stack, Text, Title } from '@mantine/core';
+import { Group, Kbd, Stack, Text, Title } from '@mantine/core';
 import { useDisclosure, useHotkeys, useLocalStorage } from '@mantine/hooks';
+import Badges from '@/components/Badges/Badges';
+import Credits from '@/components/Credits/Credits';
 import HotKeys from '@/components/MusicPlayer/HotKeys/HotKeys';
 import PlayList from '@/components/MusicPlayer/PlayList/PlayList';
 import { Layout } from '@/pages/Layout';
 import { useAudio } from '@/providers/useAudio';
 import { SongMetadata } from '@/shared/types';
-import Credits from '@/components/Credits/Credits';
 
 const HomePage = () => {
   const audio = useAudio();
@@ -49,10 +50,13 @@ const HomePage = () => {
   return (
     <Layout>
       <Stack gap={'xs'}>
-        <Title order={2}>Full Sync Demo</Title>
+        <Group justify={"space-between"}>
+          <Badges />
+          <Title order={2}>Full Sync Demo</Title>
+        </Group>
         <HotKeys opened={openedModal} close={closeModal} />
         <PlayList nextPlaylist={handleNextPlaylist} prevPlaylist={handlePrevPlaylist} />
-        <Credits/>
+        <Credits />
       </Stack>
     </Layout>
   );
