@@ -193,7 +193,7 @@ const GlobalAudioPlayer = () => {
               <Slider
                 flex={1}
                 min={0}
-                style={{'--progress-bar': audio.bufferedPercentage + '%'}}
+                style={{ '--progress-bar': audio.bufferedPercentage + '%' }}
                 data-loading={audio.isLoading}
                 data-timer={true}
                 max={audio.maxTime}

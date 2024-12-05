@@ -1,6 +1,6 @@
-import { Time } from '@/shared/types';
-import { metadataBytesLength } from '@/providers/consts';
 import { parseWebStream } from 'music-metadata';
+import { metadataBytesLength } from '@/providers/consts';
+import { Time } from '@/shared/types';
 
 export function secondsToMinutesAndSeconds(time: number): Time {
   const minutes = Math.floor(time / 60);
@@ -52,8 +52,8 @@ const getAudioDuration = (url: string): Promise<number> => {
       }
       const webStream = response.body;
       if (webStream === null) {
-        reject('webStream is null')
-        return
+        reject('webStream is null');
+        return;
       }
 
       const metadata = await parseWebStream(webStream, 'audio/mpeg');
@@ -74,3 +74,7 @@ export const fetchDuration = (songs: string[]): Promise<void | number[]> =>
   Promise.all(songs.map(getAudioDuration)).catch((errors) => {
     console.error('Errors occurred while fetching durations:', errors);
   });
+
+export const percentToValue = (percent: number) => {
+  return Math.round(percent) / 100;
+};

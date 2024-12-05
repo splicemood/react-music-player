@@ -2,7 +2,7 @@ import React from 'react';
 import { FaGithub } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import { ActionIcon, Group, Image, Title } from '@mantine/core';
-import {repository} from "@/shared/consts";
+import { repository } from '@/shared/consts';
 
 const Welcome = () => {
   return (

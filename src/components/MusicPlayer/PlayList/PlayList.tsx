@@ -1,36 +1,13 @@
-import React, {
-  LegacyRef,
-  RefObject,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { LegacyRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FaCirclePause, FaCirclePlay } from 'react-icons/fa6';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import {
-  ActionIcon,
-  BackgroundImage,
-  Box,
-  FloatingIndicator,
-  Group,
-  Stack,
-  Text,
-} from '@mantine/core';
+import { ActionIcon, Box, FloatingIndicator, Group, Stack, Text } from '@mantine/core';
 import { useScrollIntoView } from '@mantine/hooks';
 import { useAudio } from '@/providers/useAudio';
+import { PlayListProps, PlayListRowProps } from '@/shared/ifaces';
 import { secondsToMinutesAndSeconds } from '@/shared/util';
 import styles from './../MusicPlayer.module.css';
 import classes from './PlayList.module.css';
-
-interface PlayListRowProps {
-  cover?: string;
-  onClick?: () => void;
-  ref?: RefObject<HTMLDivElement>;
-  isActive?: string | object;
-  isPlaying?: boolean;
-}
 
 const CoverButton = ({ cover, onClick, ref, isPlaying, isActive }: PlayListRowProps) => {
   const IconCenter = useMemo(() => {
@@ -139,11 +116,6 @@ const Recording = ({
   );
 };
 
-interface PlayListProps {
-  nextPlaylist: () => void;
-  prevPlaylist: () => void;
-}
-
 function PlayList({ nextPlaylist, prevPlaylist }: PlayListProps) {
   const audio = useAudio();
   const {
@@ -200,7 +172,6 @@ function PlayList({ nextPlaylist, prevPlaylist }: PlayListProps) {
                 play={play}
                 isPlaying={isPlaying}
               >
-                {/*<ActionMenu setState={setState} />*/}
                 <Text c={'dimmed'} className={styles.durationTime}>
                   {minutes}:{padSeconds}
                 </Text>

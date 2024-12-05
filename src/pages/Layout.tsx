@@ -4,8 +4,8 @@ import { useDisclosure, useHotkeys } from '@mantine/hooks';
 import GlobalAudioPlayer from '@/components/MusicPlayer/GlobalAudioPlayer';
 import Navbar from '@/components/Navbar/Navbar';
 import Welcome from '@/components/Welcome/Welcome';
-import { useAudio } from '@/providers/useAudio';
 import { maxVolume, minTime, minVolume, timeStep, volumeStep } from '@/providers/consts';
+import { useAudio } from '@/providers/useAudio';
 
 export function Layout({ children }: any) {
   const audio = useAudio();
@@ -42,6 +42,7 @@ export function Layout({ children }: any) {
         if (audio.volumePercent === maxVolume) return;
         const newVolume = audio.volumePercent + volumeStep;
         if (newVolume > maxVolume) {
+          console.log();
           audio.setVolumePercent(maxVolume);
           return;
         }

@@ -14,7 +14,9 @@ const Navbar = () => {
   return (
     <AppShell.Navbar p="md">
       <AppShell.Section>Modes/Provider Usage</AppShell.Section>
-      <AppShell.Section grow my="md" component={ScrollArea}>{navbar}</AppShell.Section>
+      <AppShell.Section grow my="md" component={ScrollArea}>
+        {navbar}
+      </AppShell.Section>
     </AppShell.Navbar>
   );
 };

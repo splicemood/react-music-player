@@ -1,5 +1,6 @@
-import { SongMetadata } from '@/shared/types';
+import { RefObject } from 'react';
 import { LoopState } from '@/shared/enums';
+import { SongMetadata } from '@/shared/types';
 
 export interface useGlobalAudioPlayerProps {
   play: () => void;
@@ -34,4 +35,17 @@ export interface useGlobalAudioPlayerProps {
   isShuffled: boolean;
   isLoading: boolean | undefined;
   isMuted: boolean;
+}
+
+export interface PlayListRowProps {
+  cover?: string;
+  onClick?: () => void;
+  ref?: RefObject<HTMLDivElement>;
+  isActive?: string | object;
+  isPlaying?: boolean;
+}
+
+export interface PlayListProps {
+  nextPlaylist: () => void;
+  prevPlaylist: () => void;
 }

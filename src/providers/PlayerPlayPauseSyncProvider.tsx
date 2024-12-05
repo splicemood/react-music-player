@@ -12,7 +12,7 @@ import {
 import { PlayerContext } from '@/providers/context';
 import { LoopState } from '@/shared/enums';
 import { SongMetadata } from '@/shared/types';
-import { fetchDuration } from '@/shared/util';
+import { fetchDuration, percentToValue } from '@/shared/util';
 
 export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
   // State variables
@@ -217,7 +217,7 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
   const setPlayerVolume = (value: number) => setVolume(value);
   // 0-100 range value
   const setPlayerPercentVolume = (percent: number) => {
-    const value = Math.round((percent / 100) * 100) / 100;
+    const value = percentToValue(percent);
     setVolume(value);
   };
 
