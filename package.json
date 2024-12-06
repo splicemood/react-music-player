@@ -1,11 +1,22 @@
 {
   "name": "@splicemood/react-music-player",
   "homepage": "https://splicemood.github.io/react-music-player/",
-  "version": "0.1.0",
+  "description": "The music player that sync all settings between multiple tabs on single browser session locally",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/splicemood/react-music-player"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
+    "buildPackage": "rm -Rf dist && tsc -p tsconfig.production.json",
+    "publish": "npm publish --access public",
     "build": "tsc && vite build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",

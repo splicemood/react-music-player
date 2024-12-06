@@ -3,7 +3,7 @@ import { FaCirclePause, FaCirclePlay } from 'react-icons/fa6';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { ActionIcon, Box, FloatingIndicator, Group, Stack, Text } from '@mantine/core';
 import { useScrollIntoView } from '@mantine/hooks';
-import { useAudio } from '@/package/useAudio';
+import { useAudio } from '@/package';
 import { PlayListProps, PlayListRowProps, RecordingProps } from '@/shared/ifaces';
 import { SongMetadata } from '@/shared/types';
 import { secondsToMinutesAndSeconds } from '@/shared/util';

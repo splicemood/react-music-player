@@ -4,7 +4,7 @@ import { useDisclosure, useHotkeys } from '@mantine/hooks';
 import GlobalAudioPlayer from '@/components/MusicPlayer/GlobalAudioPlayer';
 import Navbar from '@/components/Navbar/Navbar';
 import Welcome from '@/components/Welcome/Welcome';
-import { useAudio } from '@/package/useAudio';
+import { useAudio } from '@/package';
 import { maxVolume, minTime, minVolume, timeStep, volumeStep } from '@/shared/consts';
 import { SongMetadata } from '@/shared/types';
 

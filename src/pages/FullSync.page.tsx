@@ -5,7 +5,7 @@ import Badges from '@/components/Badges/Badges';
 import Credits from '@/components/Credits/Credits';
 import HotKeys from '@/components/MusicPlayer/HotKeys/HotKeys';
 import PlayList from '@/components/MusicPlayer/PlayList/PlayList';
-import { useAudio } from '@/package/useAudio';
+import { useAudio } from '@/package';
 import { Layout } from '@/pages/Layout';
 import { SongMetadata } from '@/shared/types';
 

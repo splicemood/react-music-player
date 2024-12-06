@@ -22,8 +22,8 @@ import Duration from '@/components/MusicPlayer/Duration';
 import IconButton from '@/components/MusicPlayer/IconButton';
 import PlayButton from '@/components/MusicPlayer/PlayButton';
 import TimeDisplayLabel from '@/components/MusicPlayer/TimeDisplayLabel';
-import { LoopState } from '@/package/shared/enums';
-import { useAudio } from '@/package/useAudio';
+import { LoopState } from '@/package';
+import { useAudio } from '@/package';
 import { SongMetadata, Time } from '@/shared/types';
 import { secondsToMinutesAndSeconds } from '@/shared/util';
 

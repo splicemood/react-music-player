@@ -1,5 +1,5 @@
 import { parseWebStream } from 'music-metadata';
-import { maxPercentage, metadataBytesLength } from '@/package/shared/consts';
+import { maxPercentage, metadataBytesLength } from '@/package';
 
 function getDurationNative(url: string): Promise<number> {
   return new Promise((resolve, reject) => {
