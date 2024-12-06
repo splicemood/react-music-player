@@ -1,13 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Group, Image } from '@mantine/core';
-import { repository } from '@/shared/consts';
+import {Link} from 'react-router-dom';
+import {Group, Image} from '@mantine/core';
+import {repository} from '@/shared/consts';
 
 const Badges = () => {
   return (
     // @ts-ignore
     <Group component={Link} to={repository}>
-      <Image alt="Static Badge" src="https://img.shields.io/badge/react-18.3.1-blue" />
+      <Image
+        alt="React Version"
+        src="https://img.shields.io/npm/dependency-version/%40splicemood%2Freact-music-player/react"
+      />
       <Image
         alt="GitHub License"
         src="https://img.shields.io/github/license/splicemood/react-music-player"
