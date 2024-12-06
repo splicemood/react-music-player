@@ -33,7 +33,7 @@
     <a href="https://github.com/splicemood/react-music-player"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/splicemood/react-music-player">View Demo</a>
+    <a href="https://splicemood.github.io/react-music-player">View Demo</a>
     ·
     <a href="https://github.com/splicemood/react-music-player/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
@@ -208,6 +208,7 @@ Project Link: [https://github.com/splicemood/react-music-player](https://github.
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
+* [SharpNesla](https://github.com/sharpnesla)
 * [Borobysh](https://github.com/Boroboysh)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
