@@ -82,7 +82,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://splicemood.github.io/react-music-player/)
+[![React Music Player Video Demo][product-videodemo]](https://splicemood.github.io/react-music-player/)
 
 ### Web browsers compatibility (Can I Use >96%)
 
@@ -236,3 +236,4 @@ Project Link: [https://github.com/splicemood/react-music-player](https://github.
 [license-url]: https://github.com/splicemood/react-music-player/blob/main/LICENSE
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
+[product-videodemo]: https://raw.githubusercontent.com/splicemood/react-music-player/refs/heads/main/.demo/product.mp4
