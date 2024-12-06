@@ -1,14 +1,5 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a id="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
 
 <!-- PROJECT SHIELDS -->
 <!--
@@ -18,6 +9,7 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
+[![NPM Downloads][npm-shield]][npm-url]
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -234,6 +226,8 @@ Project Link: [https://github.com/splicemood/react-music-player](https://github.
 [issues-url]: https://github.com/splicemood/react-music-player/issues
 [license-shield]: https://img.shields.io/github/license/splicemood/react-music-player.svg?style=for-the-badge
 [license-url]: https://github.com/splicemood/react-music-player/blob/main/LICENSE
+[npm-shield]: https://img.shields.io/npm/dm/%40splicemood%2Freact-music-player?style=for-the-badge
+[npm-url]: https://www.npmjs.com/package/@splicemood/react-music-player
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
 [product-video-demo]: .demo/product.gif
