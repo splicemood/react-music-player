@@ -5,12 +5,12 @@ import Badges from '@/components/Badges/Badges';
 import Credits from '@/components/Credits/Credits';
 import HotKeys from '@/components/MusicPlayer/HotKeys/HotKeys';
 import PlayList from '@/components/MusicPlayer/PlayList/PlayList';
+import { useAudio } from '@/package/useAudio';
 import { Layout } from '@/pages/Layout';
-import { useAudio } from '@/providers/useAudio';
 import { SongMetadata } from '@/shared/types';
 
 const PlayPausePage = () => {
-  const audio = useAudio();
+  const audio = useAudio<SongMetadata>();
   const [playlistNumber, setPlaylistNumber] = useState<number>(1);
   const fetchSongsMetadata = (index: number) => {
     fetch(`tracks_${index}.json`)

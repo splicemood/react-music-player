@@ -7,9 +7,3 @@ export const debounceLoadingState = 200;
 export const truncateBackStackQueue = 65536;
 export const offsetTimeBumpToStart = 5;
 export const metadataBytesLength = 3072;
-
-export const minTime = 0;
-export const minVolume = 0;
-export const maxVolume = 100;
-export const volumeStep = 5;
-export const timeStep = 5;

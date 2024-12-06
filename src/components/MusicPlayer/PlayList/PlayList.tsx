@@ -1,10 +1,11 @@
-import { LegacyRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FaCirclePause, FaCirclePlay } from 'react-icons/fa6';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { ActionIcon, Box, FloatingIndicator, Group, Stack, Text } from '@mantine/core';
 import { useScrollIntoView } from '@mantine/hooks';
-import { useAudio } from '@/providers/useAudio';
-import { PlayListProps, PlayListRowProps } from '@/shared/ifaces';
+import { useAudio } from '@/package/useAudio';
+import { PlayListProps, PlayListRowProps, RecordingProps } from '@/shared/ifaces';
+import { SongMetadata } from '@/shared/types';
 import { secondsToMinutesAndSeconds } from '@/shared/util';
 import styles from './../MusicPlayer.module.css';
 import classes from './PlayList.module.css';
@@ -40,20 +41,6 @@ const CoverButton = ({ cover, onClick, ref, isPlaying, isActive }: PlayListRowPr
     </Box>
   );
 };
-
-interface RecordingProps {
-  id: number;
-  cover?: string;
-  author?: string;
-  title?: string;
-  setControlRef: (name: number) => LegacyRef<HTMLDivElement> | undefined;
-  setActive: (index: number) => void;
-  togglePlayPause: () => void;
-  play: () => void;
-  active: number;
-  isPlaying?: boolean;
-  children?: React.ReactNode;
-}
 
 const p = {
   pt: 'xs',
@@ -117,7 +104,7 @@ const Recording = ({
 };
 
 function PlayList({ nextPlaylist, prevPlaylist }: PlayListProps) {
-  const audio = useAudio();
+  const audio = useAudio<SongMetadata>();
   const {
     currentTrackIndex: active,
     setCurrentTrack: setActive,

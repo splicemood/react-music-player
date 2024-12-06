@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Stack, Title } from '@mantine/core';
 import { useDisclosure, useHotkeys, useLocalStorage } from '@mantine/hooks';
 import Badges from '@/components/Badges/Badges';
 import Credits from '@/components/Credits/Credits';
 import HotKeys from '@/components/MusicPlayer/HotKeys/HotKeys';
 import PlayList from '@/components/MusicPlayer/PlayList/PlayList';
+import { useAudio } from '@/package/useAudio';
 import { Layout } from '@/pages/Layout';
-import { useAudio } from '@/providers/useAudio';
 import { SongMetadata } from '@/shared/types';
 
 const HomePage = () => {
-  const audio = useAudio();
+  const audio = useAudio<SongMetadata>();
   const [playlistNumber, setPlaylistNumber] = useLocalStorage<number>({
     key: 'player-playlist-number',
     defaultValue: 1,

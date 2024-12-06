@@ -5,9 +5,7 @@ import classes from './MusicPlayer.module.css';
 export default function TimeDisplayLabel({ time }: TimeDisplayProps) {
   return (
     <Text c={'dimmed'} className={classes.playlistText}>
-      {time.minutes}
-      :
-      {time.padSeconds}
+      {time.minutes}:{time.padSeconds}
     </Text>
   );
 }

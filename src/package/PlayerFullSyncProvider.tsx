@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDebouncedState } from '@mantine/hooks';
+import { useDebouncedState, useLocalStorage } from '@mantine/hooks';
+import { PlayerContext } from './context';
 import {
   debounceLoadingState,
   defaultVolume,
@@ -8,35 +9,53 @@ import {
   offsetTimeBumpToStart,
   step,
   truncateBackStackQueue,
-} from '@/providers/consts';
-import { PlayerContext } from '@/providers/context';
-import { LoopState } from '@/shared/enums';
-import { SongMetadata } from '@/shared/types';
-import { fetchDuration, percentToValue } from '@/shared/util';
+} from './shared/consts';
+import { LoopState } from './shared/enums';
+import { SongSource } from './shared/ifaces';
+import { fetchDuration, percentToValue } from './shared/util';
 
-export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
+export const PlayerFullSyncProvider = ({ children }: any) => {
   // State variables
   const [isLoading, setIsLoading] = useDebouncedState<boolean | undefined>(
     undefined,
     debounceLoadingState
   );
-  const [playlist, setPlaylist] = useState<SongMetadata[]>([]);
+  const [playlist, setPlaylist] = useState<SongSource[]>([]);
   const [durations, setDurations] = useState<number[]>([]);
   const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(firstElement);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   // currentTime is local state, to update time use setUpdateTime method instead
   const [currentTime, setCurrentTime] = useState<number>(firstElement);
-  const [updatedTime, setUpdateTime] = useState<number>(0);
+  const [updatedTime, setUpdateTime] = useLocalStorage<number>({
+    key: 'player-updated-time',
+    defaultValue: 0,
+  });
 
-  const [volume, setVolume] = useState<number>(defaultVolume);
+  const [volume, setVolume] = useLocalStorage<number>({
+    key: 'player-volume',
+    defaultValue: defaultVolume,
+    getInitialValueInEffect: true,
+  });
   const [volumePercent, setVolumePercent] = useState<number>(defaultVolumePercent);
   const [bufferedPercentage, setBufferedPercentage] = useState<number>(firstElement);
   const [maxTime, setMaxTime] = useState<number>(firstElement);
 
-  const [isMuted, setIsMuted] = useState<boolean>(false);
-  const [isShuffled, setIsShuffled] = useState<boolean>(false);
-  const [repeatMode, setRepeatMode] = useState<LoopState>(LoopState.PlayAll);
-  const [queue, setQueue] = useState<number[]>([]);
+  const [isMuted, setIsMuted] = useLocalStorage<boolean>({
+    key: 'player-muted',
+    defaultValue: false,
+  });
+  const [isShuffled, setIsShuffled] = useLocalStorage<boolean>({
+    key: 'player-shuffle',
+    defaultValue: false,
+  });
+  const [repeatMode, setRepeatMode] = useLocalStorage<LoopState>({
+    key: 'player-repeat',
+    defaultValue: LoopState.PlayAll,
+  });
+  const [queue, setQueue] = useLocalStorage<number[]>({
+    key: 'player-shuffle-queue',
+    defaultValue: [],
+  });
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const channelRef = useRef<BroadcastChannel | null>(null);
@@ -47,6 +66,10 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
     },
     [channelRef.current]
   );
+
+  useEffect(() => {
+    broadcastState('UPDATE_TRACK', currentTrackIndex);
+  }, [currentTrackIndex]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -106,6 +129,29 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
     }
   }, [volume, isMuted]);
 
+  const setupDuration = (playlist: SongSource[]) => {
+    const prepareDuration: number[] = Array(playlist.length).fill(0);
+    setDurations(prepareDuration);
+    if (playlist.length > 0) {
+      const songs = playlist.map((song) => song.src);
+      fetchDuration(songs).then((durations) => {
+        if (durations !== undefined) {
+          setDurations(durations);
+        }
+      });
+    }
+  };
+
+  const addDuration = (track: SongSource) => {
+    fetchDuration([track.src]).then((res) => {
+      if (res) {
+        setDurations((prev) => {
+          return [...prev, res[0]];
+        });
+      }
+    });
+  };
+
   useEffect(() => {
     if (playlist.length > 0) {
       const songs = playlist.map((song) => song.src);
@@ -121,6 +167,7 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
     if (audioRef.current !== null) {
       const value = audioRef.current.currentTime;
       setCurrentTime(value);
+      broadcastState('UPDATE_TIME', value);
     }
   }, [setCurrentTime]);
 
@@ -238,14 +285,18 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
     });
   };
 
-  const addToPlaylist = (track: SongMetadata) => setPlaylist((prev) => [...prev, track]);
+  const addToPlaylist = (track: SongSource) => {
+    setPlaylist((prev) => [...prev, track]);
+    addDuration(track);
+  };
 
-  const replacePlaylist = (newPlaylist: SongMetadata[]) => {
+  const replacePlaylist = (newPlaylist: SongSource[]) => {
     pause();
     setQueue([firstElement]);
     setBufferedPercentage(firstElement);
     setPlaylist(newPlaylist);
     setCurrentTrackIndex(firstElement);
+    setupDuration(newPlaylist);
   };
 
   const handleBroadcastMessage = useCallback(
@@ -254,6 +305,16 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
       switch (data?.type) {
         case 'PAUSE_PLAYING':
           setIsPlaying(false);
+          break;
+        case 'UPDATE_TIME':
+          if (!isPlaying && data.value !== firstElement) {
+            setCurrentTime(data.value);
+          }
+          break;
+        case 'UPDATE_TRACK':
+          if (!isPlaying) {
+            setCurrentTrackIndex(data.value);
+          }
           break;
       }
     },
@@ -280,7 +341,7 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
     audioRef.current.addEventListener('ended', handleTrackEnded);
 
     if ('BroadcastChannel' in window && !channelRef.current) {
-      channelRef.current = new BroadcastChannel('playpause-audio-player');
+      channelRef.current = new BroadcastChannel('global-audio-player');
       channelRef.current.onmessage = handleBroadcastMessage;
     }
 
@@ -296,7 +357,8 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current.currentTime = 0;
+        audioRef.current.src = '';
+        audioRef.current.remove();
       }
     };
   }, []);

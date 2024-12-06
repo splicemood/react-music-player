@@ -4,11 +4,12 @@ import { useDisclosure, useHotkeys } from '@mantine/hooks';
 import GlobalAudioPlayer from '@/components/MusicPlayer/GlobalAudioPlayer';
 import Navbar from '@/components/Navbar/Navbar';
 import Welcome from '@/components/Welcome/Welcome';
-import { maxVolume, minTime, minVolume, timeStep, volumeStep } from '@/providers/consts';
-import { useAudio } from '@/providers/useAudio';
+import { useAudio } from '@/package/useAudio';
+import { maxVolume, minTime, minVolume, timeStep, volumeStep } from '@/shared/consts';
+import { SongMetadata } from '@/shared/types';
 
 export function Layout({ children }: any) {
-  const audio = useAudio();
+  const audio = useAudio<SongMetadata>();
 
   useHotkeys([
     ['Space', audio.togglePlayPause],

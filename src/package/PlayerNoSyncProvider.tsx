@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDebouncedState, useLocalStorage } from '@mantine/hooks';
+import { useDebouncedState } from '@mantine/hooks';
+import { PlayerContext } from './context';
 import {
   debounceLoadingState,
   defaultVolume,
@@ -8,67 +9,45 @@ import {
   offsetTimeBumpToStart,
   step,
   truncateBackStackQueue,
-} from '@/providers/consts';
-import { PlayerContext } from '@/providers/context';
-import { LoopState } from '@/shared/enums';
-import { SongMetadata } from '@/shared/types';
-import { fetchDuration, percentToValue } from '@/shared/util';
+} from './shared/consts';
+import { LoopState } from './shared/enums';
+import { SongSource } from './shared/ifaces';
+import { fetchDuration, percentToValue } from './shared/util';
 
-export const PlayerFullSyncProvider = ({ children }: any) => {
+const ls = window.localStorage;
+
+export const PlayerNoSyncProvider = ({ children }: any) => {
   // State variables
   const [isLoading, setIsLoading] = useDebouncedState<boolean | undefined>(
     undefined,
     debounceLoadingState
   );
-  const [playlist, setPlaylist] = useState<SongMetadata[]>([]);
+  const [playlist, setPlaylist] = useState<SongSource[]>([]);
   const [durations, setDurations] = useState<number[]>([]);
   const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(firstElement);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   // currentTime is local state, to update time use setUpdateTime method instead
   const [currentTime, setCurrentTime] = useState<number>(firstElement);
-  const [updatedTime, setUpdateTime] = useLocalStorage<number>({
-    key: 'player-updated-time',
-    defaultValue: 0,
-  });
+  const [updatedTime, setUpdateTime] = useState<number>(0);
 
-  const [volume, setVolume] = useLocalStorage<number>({
-    key: 'player-volume',
-    defaultValue: defaultVolume,
-  });
+  const previousVolume = ls.getItem('player-volume');
+  const previousVolumeNumber = previousVolume ? Number(previousVolume) : defaultVolume;
+  const [volume, setVolume] = useState<number>(previousVolumeNumber);
   const [volumePercent, setVolumePercent] = useState<number>(defaultVolumePercent);
   const [bufferedPercentage, setBufferedPercentage] = useState<number>(firstElement);
   const [maxTime, setMaxTime] = useState<number>(firstElement);
 
-  const [isMuted, setIsMuted] = useLocalStorage<boolean>({
-    key: 'player-muted',
-    defaultValue: false,
-  });
-  const [isShuffled, setIsShuffled] = useLocalStorage<boolean>({
-    key: 'player-shuffle',
-    defaultValue: false,
-  });
-  const [repeatMode, setRepeatMode] = useLocalStorage<LoopState>({
-    key: 'player-repeat',
-    defaultValue: LoopState.PlayAll,
-  });
-  const [queue, setQueue] = useLocalStorage<number[]>({
-    key: 'player-shuffle-queue',
-    defaultValue: [],
-  });
+  const previousMuted = ls.getItem('player-muted') === 'true';
+  const [isMuted, setIsMuted] = useState<boolean>(previousMuted);
+  const previousShuffled = ls.getItem('player-shuffle') === 'true';
+  const [isShuffled, setIsShuffled] = useState<boolean>(previousShuffled);
+  const previousRepeatMode = ls.getItem('player-repeat');
+  const [repeatMode, setRepeatMode] = useState<LoopState>(
+    Number(previousRepeatMode) || LoopState.PlayAll
+  );
+  const [queue, setQueue] = useState<number[]>([]);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const channelRef = useRef<BroadcastChannel | null>(null);
-
-  const broadcastState = useCallback(
-    (type: string, value?: any) => {
-      if (channelRef.current) channelRef.current.postMessage({ type, value });
-    },
-    [channelRef.current]
-  );
-
-  useEffect(() => {
-    broadcastState('UPDATE_TRACK', currentTrackIndex);
-  }, [currentTrackIndex]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -80,6 +59,7 @@ export const PlayerFullSyncProvider = ({ children }: any) => {
         });
       }
     }
+    ls.setItem('player-shuffle', String(isShuffled));
   }, [isShuffled]);
 
   useEffect(() => {
@@ -105,7 +85,6 @@ export const PlayerFullSyncProvider = ({ children }: any) => {
   useEffect(() => {
     if (audioRef.current && playlist.length > firstElement) {
       if (isPlaying) {
-        broadcastState('PAUSE_PLAYING');
         setIsLoading(true);
         audioRef.current
           .play()
@@ -128,6 +107,29 @@ export const PlayerFullSyncProvider = ({ children }: any) => {
     }
   }, [volume, isMuted]);
 
+  const setupDuration = (playlist: SongSource[]) => {
+    const prepareDuration: number[] = Array(playlist.length).fill(0);
+    setDurations(prepareDuration);
+    if (playlist.length > 0) {
+      const songs = playlist.map((song) => song.src);
+      fetchDuration(songs).then((durations) => {
+        if (durations !== undefined) {
+          setDurations(durations);
+        }
+      });
+    }
+  };
+
+  const addDuration = (track: SongSource) => {
+    fetchDuration([track.src]).then((res) => {
+      if (res) {
+        setDurations((prev) => {
+          return [...prev, res[0]];
+        });
+      }
+    });
+  };
+
   useEffect(() => {
     if (playlist.length > 0) {
       const songs = playlist.map((song) => song.src);
@@ -143,7 +145,6 @@ export const PlayerFullSyncProvider = ({ children }: any) => {
     if (audioRef.current !== null) {
       const value = audioRef.current.currentTime;
       setCurrentTime(value);
-      broadcastState('UPDATE_TIME', value);
     }
   }, [setCurrentTime]);
 
@@ -237,11 +238,14 @@ export const PlayerFullSyncProvider = ({ children }: any) => {
 
   const setCurrentTrack = (newIndex: number) => setCurrentTrackIndex(newIndex);
   // 0-1 range value
-  const setPlayerVolume = (value: number) => setVolume(value);
+  const setPlayerVolume = (value: number) => {
+    setVolume(value);
+    ls.setItem('player-volume', String(value));
+  };
   // 0-100 range value
   const setPlayerPercentVolume = (percent: number) => {
     const value = percentToValue(percent);
-    setVolume(value);
+    setPlayerVolume(value);
   };
 
   const mute = () => setIsMuted(true);
@@ -254,44 +258,32 @@ export const PlayerFullSyncProvider = ({ children }: any) => {
 
   const toggleLoop = () => {
     setRepeatMode((prev) => {
-      if (prev === LoopState.PlayAll) return LoopState.LoopAll;
-      if (prev === LoopState.LoopAll) return LoopState.LoopCue;
-      if (prev === LoopState.LoopCue) return LoopState.PlayAll;
-      return LoopState.PlayAll;
+      let state = LoopState.PlayAll;
+      if (prev === LoopState.PlayAll) state = LoopState.LoopAll;
+      if (prev === LoopState.LoopAll) state = LoopState.LoopCue;
+      if (prev === LoopState.LoopCue) state = LoopState.PlayAll;
+      ls.setItem('player-repeat', String(state));
+      return state;
     });
   };
 
-  const addToPlaylist = (track: SongMetadata) => setPlaylist((prev) => [...prev, track]);
+  const addToPlaylist = (track: SongSource) => {
+    setPlaylist((prev) => [...prev, track]);
+    addDuration(track);
+  };
 
-  const replacePlaylist = (newPlaylist: SongMetadata[]) => {
+  const replacePlaylist = (newPlaylist: SongSource[]) => {
     pause();
     setQueue([firstElement]);
     setBufferedPercentage(firstElement);
     setPlaylist(newPlaylist);
     setCurrentTrackIndex(firstElement);
+    setupDuration(newPlaylist);
   };
 
-  const handleBroadcastMessage = useCallback(
-    (event: MessageEvent) => {
-      const { data } = event;
-      switch (data?.type) {
-        case 'PAUSE_PLAYING':
-          setIsPlaying(false);
-          break;
-        case 'UPDATE_TIME':
-          if (!isPlaying && data.value !== firstElement) {
-            setCurrentTime(data.value);
-          }
-          break;
-        case 'UPDATE_TRACK':
-          if (!isPlaying) {
-            setCurrentTrackIndex(data.value);
-          }
-          break;
-      }
-    },
-    [isPlaying, setCurrentTrackIndex, setIsPlaying, currentTrackIndex]
-  );
+  useEffect(() => {
+    ls.setItem('player-muted', String(isMuted));
+  }, [isMuted]);
 
   const handleProgress = () => {
     if (audioRef.current && audioRef.current.buffered.length > 0) {
@@ -312,11 +304,6 @@ export const PlayerFullSyncProvider = ({ children }: any) => {
     audioRef.current.addEventListener('durationchange', handleTrackDurationChanged);
     audioRef.current.addEventListener('ended', handleTrackEnded);
 
-    if ('BroadcastChannel' in window && !channelRef.current) {
-      channelRef.current = new BroadcastChannel('global-audio-player');
-      channelRef.current.onmessage = handleBroadcastMessage;
-    }
-
     return () => {
       audioRef.current?.removeEventListener('progress', handleProgress);
       audioRef.current?.removeEventListener('timeupdate', handleTrackUpdateTime);
@@ -326,10 +313,16 @@ export const PlayerFullSyncProvider = ({ children }: any) => {
   }, [handleProgress, handleTrackEnded, handleTrackUpdateTime, handleTrackDurationChanged]);
 
   useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.muted = isMuted;
+      audioRef.current.volume = volume;
+    }
+
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current.currentTime = 0;
+        audioRef.current.src = '';
+        audioRef.current.remove();
       }
     };
   }, []);

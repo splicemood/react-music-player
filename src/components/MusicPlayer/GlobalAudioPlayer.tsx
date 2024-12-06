@@ -22,16 +22,16 @@ import Duration from '@/components/MusicPlayer/Duration';
 import IconButton from '@/components/MusicPlayer/IconButton';
 import PlayButton from '@/components/MusicPlayer/PlayButton';
 import TimeDisplayLabel from '@/components/MusicPlayer/TimeDisplayLabel';
-import { useAudio } from '@/providers/useAudio';
-import { LoopState } from '@/shared/enums';
-import { Time } from '@/shared/types';
+import { LoopState } from '@/package/shared/enums';
+import { useAudio } from '@/package/useAudio';
+import { SongMetadata, Time } from '@/shared/types';
 import { secondsToMinutesAndSeconds } from '@/shared/util';
 
 const debouncePassUpdateUnlock = 50;
 const fallbackSrc = '/react-music-player/icons/thumbnail.svg';
 
 const GlobalAudioPlayer = () => {
-  const audio = useAudio();
+  const audio = useAudio<SongMetadata>();
   const [passUpdate, setPassUpdate] = useState(true);
   const [currentTime, setCurrentTime] = useState<Time>(secondsToMinutesAndSeconds(0));
   const [maxTime, setMaxTime] = useState<Time>(secondsToMinutesAndSeconds(0));
