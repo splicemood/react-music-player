@@ -1,23 +1,24 @@
+import { maxPercentage, metadataBytesLength } from '@splicemood/react-music-player';
 import { parseWebStream } from 'music-metadata';
-import { maxPercentage, metadataBytesLength } from '@/package';
 
 function getDurationNative(url: string): Promise<number> {
   return new Promise((resolve, reject) => {
     const audio = new Audio();
+    const cleanUp = () => {
+      audio.removeEventListener('loadedmetadata', handleLoaded);
+      audio.removeEventListener('error', handleError);
+    };
+
     const handleLoaded = () => {
       resolve(audio.duration);
-      audio.removeEventListener('loadedmetadata', handleLoaded);
-      audio.removeEventListener('error', handleError);
-      audio.src = '';
-      audio.remove();
+      cleanUp();
     };
+
     const handleError = (e: ErrorEvent) => {
       reject(e);
-      audio.removeEventListener('loadedmetadata', handleLoaded);
-      audio.removeEventListener('error', handleError);
-      audio.src = '';
-      audio.remove();
+      cleanUp();
     };
+
     audio.addEventListener('loadedmetadata', handleLoaded);
     audio.addEventListener('error', handleError);
     audio.src = url;

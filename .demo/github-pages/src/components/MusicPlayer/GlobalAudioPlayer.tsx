@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import './MusicPlayer.css';
 import './Loader.css';
 
+import { LoopState, useAudio } from '@splicemood/react-music-player';
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import { IoPlaySkipBack, IoPlaySkipForward } from 'react-icons/io5';
 import {
@@ -22,8 +23,6 @@ import Duration from '@/components/MusicPlayer/Duration';
 import IconButton from '@/components/MusicPlayer/IconButton';
 import PlayButton from '@/components/MusicPlayer/PlayButton';
 import TimeDisplayLabel from '@/components/MusicPlayer/TimeDisplayLabel';
-import { LoopState } from '@/package';
-import { useAudio } from '@/package';
 import { SongMetadata, Time } from '@/shared/types';
 import { secondsToMinutesAndSeconds } from '@/shared/util';
 
@@ -35,7 +34,7 @@ const GlobalAudioPlayer = () => {
   const [passUpdate, setPassUpdate] = useState(true);
   const [currentTime, setCurrentTime] = useState<Time>(secondsToMinutesAndSeconds(0));
   const [maxTime, setMaxTime] = useState<Time>(secondsToMinutesAndSeconds(0));
-  const [sliderValue, setSliderValue] = useState(0);
+  const [sliderValue, setSliderValue] = useState<number>(audio.currentTime);
 
   useEffect(() => {
     if (passUpdate) {
@@ -49,6 +48,7 @@ const GlobalAudioPlayer = () => {
   }, [audio.currentTime]);
 
   useEffect(() => {
+    setSliderValue(audio.currentTime);
     setMaxTime(secondsToMinutesAndSeconds(audio.maxTime));
   }, [audio.maxTime]);
 
@@ -92,17 +92,27 @@ const GlobalAudioPlayer = () => {
   }, [audio.repeatMode]);
 
   const source = useMemo(() => {
-    return audio.playlist?.length > 0 ? audio.playlist?.[audio.currentTrackIndex]?.cover : '';
+    return audio.playlist?.length > 0
+      ? audio.playlist?.[audio.currentTrackIndex]?.cover
+      : undefined;
   }, [audio.playlist, audio.currentTrackIndex]);
+
   const title = useMemo(() => {
-    return audio.playlist?.length > 0 && audio.playlist[audio.currentTrackIndex]?.title;
+    return (
+      (audio.playlist?.length > 0 && audio.playlist[audio.currentTrackIndex]?.title) || 'Untitled'
+    );
   }, [audio.playlist, audio.currentTrackIndex]);
+
   const author = useMemo(() => {
-    return audio.playlist?.length > 0 && audio.playlist[audio.currentTrackIndex]?.author;
+    return (
+      (audio.playlist?.length > 0 && audio.playlist[audio.currentTrackIndex]?.author) || 'Unknown'
+    );
   }, [audio.playlist, audio.currentTrackIndex]);
+
   const MuteIcon = useMemo(() => {
     return audio.isMuted ? FaVolumeMute : FaVolumeUp;
   }, [audio.isMuted]);
+
   const renderLabel = (value: number) =>
     TimeDisplayLabel({ time: secondsToMinutesAndSeconds(value) });
 
@@ -169,6 +179,7 @@ const GlobalAudioPlayer = () => {
           <Stack gap={sliderCoverGap} flex={1}>
             <Group visibleFrom={'md'} justify={'space-between'} miw={300}>
               <Image
+                draggable={false}
                 className={'music-cover-art'}
                 src={source || fallbackSrc}
                 onError={({ currentTarget }) => {

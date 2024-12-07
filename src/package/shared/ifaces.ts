@@ -1,14 +1,14 @@
-import {LoopState} from '@/package';
+import { LoopState } from '@splicemood/react-music-player';
 
-export interface SongSource {
+export interface AudioSource {
   src: string;
 }
 
-export interface useGlobalAudioPlayerProps<T extends SongSource> {
+export interface useGlobalAudioPlayerProps<T extends AudioSource> {
   play: () => void;
   pause: () => void;
   togglePlayPause: () => void;
-  next: (preventPlay?: boolean) => void;
+  next: (forcePlay?: boolean) => void;
   previous: () => void;
   setVolume: (value: number) => void;
   mute: () => void;
@@ -23,11 +23,13 @@ export interface useGlobalAudioPlayerProps<T extends SongSource> {
   setCurrentTrack: (index: number) => void;
   setVolumePercent: (percent: number) => void;
   setUpdateTime: (newTime: number) => void;
+  setPlaylistId: (id: string | number) => void;
 
   volume: number;
   maxTime: number;
   volumePercent: number;
   bufferedPercentage: number;
+  currentPlaylistId: string | number;
   playlist: T[];
   durations: number[];
   isPlaying: boolean;

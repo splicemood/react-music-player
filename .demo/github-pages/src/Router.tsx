@@ -1,13 +1,15 @@
 import {
+  PlayerFullSyncProvider,
+  PlayerNoSyncProvider,
+  PlayerPlayPauseSyncProvider,
+} from '@splicemood/react-music-player';
+import {
   createHashRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from 'react-router-dom';
 import { NothingFoundBackground } from '@/components/NothingFoundBackground/NothingFoundBackground';
-import { PlayerFullSyncProvider } from '@/package';
-import { PlayerNoSyncProvider } from '@/package';
-import { PlayerPlayPauseSyncProvider } from '@/package';
 import NoSyncPage from '@/pages/NoSync.page';
 import PlayPausePage from '@/pages/PlayPause.page';
 import HomePage from './pages/FullSync.page';

@@ -11,7 +11,7 @@ import {
   truncateBackStackQueue,
 } from './shared/consts';
 import { LoopState } from './shared/enums';
-import { SongSource } from './shared/ifaces';
+import { AudioSource } from './shared/ifaces';
 import { fetchDuration, percentToValue } from './shared/util';
 
 const ls = window.localStorage;
@@ -22,8 +22,10 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
     undefined,
     debounceLoadingState
   );
-  const [playlist, setPlaylist] = useState<SongSource[]>([]);
+  const [playlist, setPlaylist] = useState<AudioSource[]>([]);
   const [durations, setDurations] = useState<number[]>([]);
+
+  const [currentPlaylistId, setCurrentPlaylistId] = useState<string | number>('');
   const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(firstElement);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   // currentTime is local state, to update time use setUpdateTime method instead
@@ -45,9 +47,10 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
   const [repeatMode, setRepeatMode] = useState<LoopState>(
     Number(previousRepeatMode) || LoopState.PlayAll
   );
+  // this is shuffle queue, for playlist queue refer to playlist state please
   const [queue, setQueue] = useState<number[]>([]);
 
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(new Audio());
   const channelRef = useRef<BroadcastChannel | null>(null);
 
   const broadcastState = useCallback(
@@ -116,20 +119,20 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
     }
   }, [volume, isMuted]);
 
-  const setupDuration = (playlist: SongSource[]) => {
+  const setupDuration = (playlist: AudioSource[]) => {
     const prepareDuration: number[] = Array(playlist.length).fill(0);
     setDurations(prepareDuration);
     if (playlist.length > 0) {
       const songs = playlist.map((song) => song.src);
       fetchDuration(songs).then((durations) => {
-        if (durations !== undefined) {
+        if (Array.isArray(durations)) {
           setDurations(durations);
         }
       });
     }
   };
 
-  const addDuration = (track: SongSource) => {
+  const addDuration = (track: AudioSource) => {
     fetchDuration([track.src]).then((res) => {
       if (res) {
         setDurations((prev) => {
@@ -138,13 +141,6 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
       }
     });
   };
-
-  const handleTrackUpdateTime = useCallback(() => {
-    if (audioRef.current !== null) {
-      const value = audioRef.current.currentTime;
-      setCurrentTime(value);
-    }
-  }, [setCurrentTime]);
 
   const handleTrackDurationChanged = useCallback(() => {
     if (audioRef.current !== null) {
@@ -265,12 +261,12 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
     });
   };
 
-  const addToPlaylist = (track: SongSource) => {
+  const addToPlaylist = (track: AudioSource) => {
     setPlaylist((prev) => [...prev, track]);
     addDuration(track);
   };
 
-  const replacePlaylist = (newPlaylist: SongSource[]) => {
+  const replacePlaylist = (newPlaylist: AudioSource[]) => {
     pause();
     setQueue([firstElement]);
     setBufferedPercentage(firstElement);
@@ -301,43 +297,53 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
       setBufferedPercentage((bufferedEnd / audioRef.current.duration) * 100);
     }
   };
-
-  useEffect(() => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio();
-      setIsPlaying(false);
-      audioRef.current.preload = 'metadata';
+  const handleTrackUpdateTime = () => {
+    if (audioRef.current !== null) {
+      const value = audioRef.current.currentTime;
+      setCurrentTime(value);
+      ls.setItem('player-sync-time', String(value));
     }
-
-    audioRef.current.addEventListener('progress', handleProgress);
-    audioRef.current.addEventListener('timeupdate', handleTrackUpdateTime);
-    audioRef.current.addEventListener('durationchange', handleTrackDurationChanged);
-    audioRef.current.addEventListener('ended', handleTrackEnded);
-
-    if ('BroadcastChannel' in window && !channelRef.current) {
-      channelRef.current = new BroadcastChannel('playpause-audio-player');
-      channelRef.current.onmessage = handleBroadcastMessage;
-    }
-
-    return () => {
-      audioRef.current?.removeEventListener('progress', handleProgress);
-      audioRef.current?.removeEventListener('timeupdate', handleTrackUpdateTime);
-      audioRef.current?.removeEventListener('durationchange', handleTrackDurationChanged);
-      audioRef.current?.removeEventListener('ended', handleTrackEnded);
-    };
-  }, [handleProgress, handleTrackEnded, handleTrackUpdateTime, handleTrackDurationChanged]);
+  };
 
   useEffect(() => {
     if (audioRef.current) {
+      audioRef.current.addEventListener('ended', handleTrackEnded);
+    }
+    return () => {
+      audioRef.current?.removeEventListener('ended', handleTrackEnded);
+    };
+  }, [handleTrackEnded]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      const syncTime = ls.getItem('player-sync-time');
+      const syncTimeNumber = Number(syncTime);
+      setUpdateTime(syncTimeNumber);
+      audioRef.current.currentTime = syncTimeNumber;
       audioRef.current.muted = isMuted;
       audioRef.current.volume = volume;
+      setCurrentTime(syncTimeNumber);
+      setIsPlaying(false);
+
+      audioRef.current.preload = 'metadata';
+
+      if ('BroadcastChannel' in window && !channelRef.current) {
+        channelRef.current = new BroadcastChannel('playpause-audio-player');
+        channelRef.current.onmessage = handleBroadcastMessage;
+      }
+
+      audioRef.current.addEventListener('progress', handleProgress);
+      audioRef.current.addEventListener('timeupdate', handleTrackUpdateTime);
+      audioRef.current.addEventListener('durationchange', handleTrackDurationChanged);
     }
 
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current.src = '';
-        audioRef.current.remove();
+        audioRef.current.removeEventListener('progress', handleProgress);
+        audioRef.current.removeEventListener('timeupdate', handleTrackUpdateTime);
+        audioRef.current.removeEventListener('durationchange', handleTrackDurationChanged);
+        audioRef.current = null;
       }
     };
   }, []);
@@ -361,10 +367,12 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
     replacePlaylist,
     setCurrentTrack,
     setUpdateTime,
+    setPlaylistId: setCurrentPlaylistId,
 
     volume,
     volumePercent,
     bufferedPercentage,
+    currentPlaylistId,
     maxTime,
     playlist,
     durations,

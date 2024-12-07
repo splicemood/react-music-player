@@ -1,20 +1,17 @@
-import { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useAudio } from '@splicemood/react-music-player';
 import { Stack, Title } from '@mantine/core';
-import { useDisclosure, useHotkeys, useLocalStorage } from '@mantine/hooks';
+import { useDisclosure, useHotkeys } from '@mantine/hooks';
 import Badges from '@/components/Badges/Badges';
 import Credits from '@/components/Credits/Credits';
 import HotKeys from '@/components/MusicPlayer/HotKeys/HotKeys';
 import PlayList from '@/components/MusicPlayer/PlayList/PlayList';
-import { useAudio } from '@/package';
 import { Layout } from '@/pages/Layout';
 import { SongMetadata } from '@/shared/types';
 
-const HomePage = () => {
+const PlayPausePage = () => {
   const audio = useAudio<SongMetadata>();
-  const [playlistNumber, setPlaylistNumber] = useLocalStorage<number>({
-    key: 'player-playlist-number',
-    defaultValue: 1,
-  });
+  const [playlistNumber, setPlaylistNumber] = useState<number>(1);
   const fetchSongsMetadata = (index: number) => {
     fetch(`tracks_${index}.json`)
       .then((res) => res.json())
@@ -52,7 +49,7 @@ const HomePage = () => {
       <Stack gap={'xs'}>
         <Stack>
           <Badges />
-          <Title order={2}>Full Sync Demo</Title>
+          <Title order={2}>Play/Pause Sync Demo</Title>
         </Stack>
         <HotKeys opened={openedModal} close={closeModal} />
         <PlayList nextPlaylist={handleNextPlaylist} prevPlaylist={handlePrevPlaylist} />
@@ -62,4 +59,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default PlayPausePage;

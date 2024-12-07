@@ -24,7 +24,11 @@
     "esModuleInterop": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "baseUrl": ".",
     "paths": {
+      "@splicemood/react-music-player": [
+        "../../src/package"
+      ],
       "@/*": [
         "./src/*"
       ]
