@@ -19,11 +19,6 @@
     "esModuleInterop": true,
     "declaration": true,
     "jsx": "react-jsx",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
     "outDir": "dist"
   },
   "include": [

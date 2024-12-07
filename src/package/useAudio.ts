@@ -1,7 +1,6 @@
 import { useContext } from 'react';
-import { AudioSource } from '@splicemood/react-music-player';
-import { useGlobalAudioPlayerProps } from '@splicemood/react-music-player';
 import { PlayerContext } from './context';
+import { AudioSource, useGlobalAudioPlayerProps } from './shared/ifaces';
 
 export const useAudio = <T extends AudioSource>(): useGlobalAudioPlayerProps<T> => {
   const context = useContext<useGlobalAudioPlayerProps<T>>(PlayerContext);

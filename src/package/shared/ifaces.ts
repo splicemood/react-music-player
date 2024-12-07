@@ -1,4 +1,4 @@
-import { LoopState } from '@splicemood/react-music-player';
+import { LoopState } from './enums';
 
 export interface AudioSource {
   src: string;

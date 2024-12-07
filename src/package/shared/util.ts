@@ -1,5 +1,5 @@
-import { maxPercentage, metadataBytesLength } from '@splicemood/react-music-player';
 import { parseWebStream } from 'music-metadata';
+import { maxPercentage, metadataBytesLength } from './consts';
 
 function getDurationNative(url: string): Promise<number> {
   return new Promise((resolve, reject) => {

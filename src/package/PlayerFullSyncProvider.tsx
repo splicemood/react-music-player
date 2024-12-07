@@ -102,8 +102,8 @@ export const PlayerFullSyncProvider = ({ children }: any) => {
 
   useEffect(() => {
     if (audioRef.current !== null && mounted) {
-      const audioPlayerTime = audioRef.current.currentTime
-      const differentTime = Math.abs(audioPlayerTime - updatedTime) > 1
+      const audioPlayerTime = audioRef.current.currentTime;
+      const differentTime = Math.abs(audioPlayerTime - updatedTime) > 1;
       if (differentTime) {
         audioRef.current.currentTime = updatedTime;
         setCurrentTime(updatedTime);
@@ -393,7 +393,7 @@ export const PlayerFullSyncProvider = ({ children }: any) => {
 
     return () => {
       if (audioRef.current) {
-        audioRef.current.pause()
+        audioRef.current.pause();
         audioRef.current.removeEventListener('progress', handleProgress);
         audioRef.current.removeEventListener('timeupdate', handleTrackUpdateTime);
         audioRef.current.removeEventListener('durationchange', handleTrackDurationChanged);

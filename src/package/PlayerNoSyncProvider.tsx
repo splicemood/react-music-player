@@ -25,7 +25,7 @@ export const PlayerNoSyncProvider = ({ children }: any) => {
   const [playlist, setPlaylist] = useState<AudioSource[]>([]);
   const [durations, setDurations] = useState<number[]>([]);
 
-  const [currentPlaylistId, setCurrentPlaylistId] = useState<string | number>();
+  const [currentPlaylistId, setCurrentPlaylistId] = useState<string | number>('');
   const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(firstElement);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   // currentTime is local state, to update time use setUpdateTime method instead
