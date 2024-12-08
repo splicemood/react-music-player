@@ -104,7 +104,12 @@ Install dependency
 
 * npm
   ```sh
-  npm install @splicemood/react-music-player
+  npm i @splicemood/react-music-player
+  ```
+
+* bun
+  ```sh
+  bun i @splicemood/react-music-player
   ```
 
 ### Installation
