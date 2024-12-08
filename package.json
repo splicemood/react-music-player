@@ -9,7 +9,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/splicemood/react-music-player"
+    "url": "git+https://github.com/splicemood/react-music-player.git"
   },
   "files": [
     "dist"

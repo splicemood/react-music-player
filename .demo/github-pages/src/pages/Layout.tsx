@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAudio } from '@splicemood/react-music-player';
 import { AppShell, Burger, Container, Group } from '@mantine/core';
 import { useDisclosure, useHotkeys } from '@mantine/hooks';

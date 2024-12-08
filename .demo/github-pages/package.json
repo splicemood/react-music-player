@@ -28,9 +28,9 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
-    "@mantine/code-highlight": "^7.14.3",
     "@mantine/core": "^7.14.2",
     "@mantine/hooks": "^7.14.2",
+    "@mantine/code-highlight": "^7.14.3",
     "@mantinex/dev-icons": "^1.0.2",
     "@tabler/icons-react": "~3.17.0",
     "music-metadata": "^10.6.2",
