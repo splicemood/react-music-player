@@ -15,11 +15,11 @@ const CoverButton = ({ cover, onClick, ref, isPlaying, isActive }: PlayListRowPr
     return isPlaying ? FaCirclePause : FaCirclePlay;
   }, [isPlaying]);
 
-  const background = useMemo(
+  const backgroundImage = useMemo(
     () =>
       [cover, '/react-music-player/icons/thumbnail.svg']
         .filter(Boolean)
-        .map((image) => `url(${image})`)
+        .map((image) => `url('${image}')`)
         .join(','),
     [cover]
   );
@@ -28,7 +28,7 @@ const CoverButton = ({ cover, onClick, ref, isPlaying, isActive }: PlayListRowPr
     <Box className={classes.flex} onClick={onClick} ref={ref}>
       <div
         style={{
-          backgroundImage: background,
+          backgroundImage,
           borderRadius: 'var(--mantine-radius-sm)',
           backgroundRepeat: 'no-repeat',
           backgroundSize: '100%',
