@@ -1,10 +1,5 @@
 import { lazy } from 'react';
 import {
-  PlayerFullSyncProvider,
-  PlayerNoSyncProvider,
-  PlayerPlayPauseSyncProvider,
-} from '@splicemood/react-music-player';
-import {
   createHashRouter,
   createRoutesFromElements,
   Route,
@@ -12,9 +7,6 @@ import {
 } from 'react-router-dom';
 import { NothingFoundBackground } from '@/components/NothingFoundBackground/NothingFoundBackground';
 import Suspense from '@/hoc/Suspense';
-import NoSyncPage from '@/pages/NoSync.page';
-import PlayPausePage from '@/pages/PlayPause.page';
-import HomePage from './pages/FullSync.page';
 
 const LazyFullSync = lazy(() => import('@/pages/FullSync.chunk'));
 const LazyPlayPause = lazy(() => import('@/pages/PlayPause.chunk'));
