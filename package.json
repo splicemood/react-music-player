@@ -1,7 +1,7 @@
 {
   "name": "@splicemood/react-music-player",
   "homepage": "https://splicemood.github.io/react-music-player/",
-  "description": "The music player that sync all settings between multiple tabs on single browser session locally",
+  "description": "The music player that sync all settings between multiple tabs on a single client-side browser session",
   "version": "1.0.9",
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/esm/index.mjs",

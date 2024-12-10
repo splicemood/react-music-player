@@ -45,11 +45,10 @@ export const codeHookUsage = `import { useEffect } from 'react';
 import { AudioSource, useAudio } from '@splicemood/react-music-player';
 
 const App = () => {
-  // generic type T extends AudioSource 
   const audio = useAudio<AudioSource>();
 
   useEffect(() => {
-    audio.addToPlaylist({ src: '/react-music-player/music/music1.mp3' });
+    audio.addToPlaylist({ src: 'music.mp3' });
   }, []);
 
   return (
@@ -69,4 +68,5 @@ const App = () => {
 };
 
 export default App;
+
 `;
