@@ -28,7 +28,7 @@
 <h3 align="center">React Music Player</h3>
 
   <p align="center">
-    The music player that sync all settings between multiple tabs on single browser session locally
+    The music player that sync all settings between multiple tabs on a single client-side browser session
     <br />
     <a href="https://github.com/splicemood/react-music-player"><strong>Explore the docs »</strong></a>
     <br />
