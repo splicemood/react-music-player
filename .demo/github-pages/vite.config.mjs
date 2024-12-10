@@ -11,16 +11,13 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './vitest.setup.mjs',
   },
-  optimizeDeps: {
-    include: ['highlightjs'],
-  },
   build: {
     outDir: './build',
   },
   // for npm package usage delete following lines from here
   resolve: {
     alias: {
-      '@splicemood/react-music-player': path.resolve(__dirname, '../../src/package'),
+      '@splicemood/react-music-player': path.resolve(__dirname, '../../src'),
     },
   },
   // to here

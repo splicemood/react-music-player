@@ -323,12 +323,17 @@ export const PlayerFullSyncProvider = ({ children }: any) => {
     addDuration(track);
   };
 
-  const replacePlaylist = (newPlaylist: AudioSource[]) => {
+  const replacePlaylist = (newPlaylist: AudioSource[], startFrom?: number) => {
+    const isStartDefined = startFrom !== undefined || isPlaying;
     pause();
     setQueue([firstElement]);
     setBufferedPercentage(firstElement);
     setPlaylist(newPlaylist);
     setupDuration(newPlaylist);
+    if (isStartDefined) {
+      setCurrentTrackIndex(startFrom || firstElement);
+      play();
+    }
   };
 
   const handleBroadcastMessage = useCallback(

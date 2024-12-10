@@ -19,7 +19,7 @@ export interface useGlobalAudioPlayerProps<T extends AudioSource> {
   toggleShuffle: () => void;
   toggleLoop: () => void;
   addToPlaylist: (song: T) => void;
-  replacePlaylist: (newPlaylist: T[]) => void;
+  replacePlaylist: (newPlaylist: T[], startFrom?: number) => void;
   setCurrentTrack: (index: number) => void;
   setVolumePercent: (percent: number) => void;
   setUpdateTime: (newTime: number) => void;

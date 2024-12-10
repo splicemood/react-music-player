@@ -11,6 +11,7 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Node",
@@ -22,6 +23,6 @@
     "outDir": "dist"
   },
   "include": [
-    "src/package"
+    "src"
   ]
 }

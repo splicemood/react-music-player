@@ -16,32 +16,37 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <PlayerFullSyncProvider>
     <App />
   </PlayerFullSyncProvider>
-);`;
+);
+`;
 
 export const codePlayPauseSync = `import ReactDOM from 'react-dom/client';
 import App from './App';
-import { PlayerFullSyncProvider } from '@splicemood/react-music-player'
+import { PlayerPlayPauseSyncProvider } from '@splicemood/react-music-player'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <PlayerPlayPauseSyncProvider>
     <App />
   </PlayerPlayPauseSyncProvider>
-);`;
+);
+`;
 
 export const codeNoSync = `import ReactDOM from 'react-dom/client';
 import App from './App';
-import { PlayerFullSyncProvider } from '@splicemood/react-music-player'
+import { PlayerNoSyncProvider } from '@splicemood/react-music-player'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <PlayerNoSyncProvider>
     <App />
   </PlayerNoSyncProvider>
-);`;
+);
+`;
 
-export const codeHookUsage = `import { useAudio } from '@splicemood/react-music-player';
+export const codeHookUsage = `import { useEffect } from 'react';
+import { AudioSource, useAudio } from '@splicemood/react-music-player';
 
 const App = () => {
-  const audio = useAudio();
+  // generic type T extends AudioSource 
+  const audio = useAudio<AudioSource>();
 
   useEffect(() => {
     audio.addToPlaylist({ src: '/react-music-player/music/music1.mp3' });
@@ -52,8 +57,6 @@ const App = () => {
       <button onClick={audio.togglePlayPause}>▶</button>
       <input
         type="range"
-        name="time"
-        id="player-time"
         max={audio.maxTime}
         value={audio.currentTime}
         onChange={(ev) => {
@@ -65,4 +68,5 @@ const App = () => {
   );
 };
 
-export default App;`;
+export default App;
+`;

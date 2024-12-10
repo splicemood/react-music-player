@@ -27,7 +27,7 @@
     "baseUrl": ".",
     "paths": {
       "@splicemood/react-music-player": [
-        "../../src/package"
+        "../../src"
       ],
       "@/*": [
         "./src/*"

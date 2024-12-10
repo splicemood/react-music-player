@@ -10,7 +10,7 @@ const Badges = () => {
       <Link to={registry}>
         <Image
           alt="React Version"
-          src="https://img.shields.io/npm/dependency-version/%40splicemood%2Freact-music-player/react?style=for-the-badge"
+          src="https://img.shields.io/npm/dependency-version/%40splicemood%2Freact-music-player/peer/react?style=for-the-badge"
         />
       </Link>
       <Link to={repository}>

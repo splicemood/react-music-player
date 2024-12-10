@@ -2,9 +2,10 @@
   "name": "@splicemood/react-music-player",
   "homepage": "https://splicemood.github.io/react-music-player/",
   "description": "The music player that sync all settings between multiple tabs on single browser session locally",
-  "version": "1.0.5",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "1.0.9",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.mjs",
+  "types": "dist/lib/index.d.ts",
   "type": "module",
   "sideEffects": false,
   "repository": {
@@ -25,18 +26,24 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "rm -Rf dist && tsc -p tsconfig.production.json",
+    "deploy": "sh ./scripts/build-package-publish-demo.sh",
+    "build": "rm -Rf dist && tsc && bun build.ts && bun run build:declaration",
+    "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
+    "postbuild": "rm -Rf tsconfig.types.tsbuildinfo",
     "publish": "npm publish --access public",
     "prettier": "prettier --check \"src/**/*.{ts,tsx}\"",
     "prettier:write": "prettier --write \"src/**/*.{ts,tsx}\""
   },
-  "dependencies": {
+  "peerDependencies": {
     "react": "^18.x || ^19.x",
-    "@mantine/hooks": "^7.14.2",
-    "music-metadata": "^10.6.2"
+    "@mantine/hooks": "^7.14.3"
+  },
+  "dependencies": {
+    "music-metadata": "^10.6.4"
   },
   "devDependencies": {
-    "typescript": "^5.6.3",
-    "prettier": "^3.3.3"
+    "@types/bun": "latest",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
   }
 }

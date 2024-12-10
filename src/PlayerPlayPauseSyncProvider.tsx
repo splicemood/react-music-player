@@ -16,7 +16,7 @@ import { fetchDuration, percentToValue } from './shared/util';
 
 const ls = window.localStorage;
 
-export const PlayerNoSyncProvider = ({ children }: any) => {
+export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
   // State variables
   const [isLoading, setIsLoading] = useDebouncedState<boolean | undefined>(
     undefined,
@@ -51,6 +51,14 @@ export const PlayerNoSyncProvider = ({ children }: any) => {
   const [queue, setQueue] = useState<number[]>([]);
 
   const audioRef = useRef<HTMLAudioElement | null>(new Audio());
+  const channelRef = useRef<BroadcastChannel | null>(null);
+
+  const broadcastState = useCallback(
+    (type: string, value?: any) => {
+      if (channelRef.current) channelRef.current.postMessage({ type, value });
+    },
+    [channelRef.current]
+  );
 
   useEffect(() => {
     if (isPlaying) {
@@ -88,6 +96,7 @@ export const PlayerNoSyncProvider = ({ children }: any) => {
   useEffect(() => {
     if (audioRef.current && playlist.length > firstElement) {
       if (isPlaying) {
+        broadcastState('PAUSE_PLAYING');
         setIsLoading(true);
         audioRef.current
           .play()
@@ -132,24 +141,6 @@ export const PlayerNoSyncProvider = ({ children }: any) => {
       }
     });
   };
-
-  useEffect(() => {
-    if (playlist.length > 0) {
-      const songs = playlist.map((song) => song.src);
-      fetchDuration(songs).then((durations) => {
-        if (Array.isArray(durations)) {
-          setDurations(durations);
-        }
-      });
-    }
-  }, [playlist]);
-
-  const handleTrackUpdateTime = useCallback(() => {
-    if (audioRef.current !== null) {
-      const value = audioRef.current.currentTime;
-      setCurrentTime(value);
-    }
-  }, [setCurrentTime]);
 
   const handleTrackDurationChanged = useCallback(() => {
     if (audioRef.current !== null) {
@@ -275,23 +266,45 @@ export const PlayerNoSyncProvider = ({ children }: any) => {
     addDuration(track);
   };
 
-  const replacePlaylist = (newPlaylist: AudioSource[]) => {
+  const replacePlaylist = (newPlaylist: AudioSource[], startFrom?: number) => {
+    const isStartDefined = startFrom !== undefined || isPlaying;
     pause();
     setQueue([firstElement]);
     setBufferedPercentage(firstElement);
     setPlaylist(newPlaylist);
-    setCurrentTrackIndex(firstElement);
     setupDuration(newPlaylist);
+    if (isStartDefined) {
+      setCurrentTrackIndex(startFrom || firstElement);
+      play();
+    }
   };
 
   useEffect(() => {
     ls.setItem('player-muted', String(isMuted));
   }, [isMuted]);
 
+  const handleBroadcastMessage = useCallback(
+    (event: MessageEvent) => {
+      const { data } = event;
+      switch (data?.type) {
+        case 'PAUSE_PLAYING':
+          setIsPlaying(false);
+          break;
+      }
+    },
+    [isPlaying, setCurrentTrackIndex, setIsPlaying, currentTrackIndex]
+  );
+
   const handleProgress = () => {
     if (audioRef.current && audioRef.current.buffered.length > 0) {
       const bufferedEnd = audioRef.current.buffered.end(audioRef.current.buffered.length - 1);
       setBufferedPercentage((bufferedEnd / audioRef.current.duration) * 100);
+    }
+  };
+  const handleTrackUpdateTime = () => {
+    if (audioRef.current !== null) {
+      const value = audioRef.current.currentTime;
+      setCurrentTime(value);
     }
   };
 
@@ -311,6 +324,11 @@ export const PlayerNoSyncProvider = ({ children }: any) => {
       setIsPlaying(false);
 
       audioRef.current.preload = 'metadata';
+
+      if ('BroadcastChannel' in window && !channelRef.current) {
+        channelRef.current = new BroadcastChannel('playpause-audio-player');
+        channelRef.current.onmessage = handleBroadcastMessage;
+      }
 
       audioRef.current.addEventListener('progress', handleProgress);
       audioRef.current.addEventListener('timeupdate', handleTrackUpdateTime);
