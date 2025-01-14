@@ -2,7 +2,7 @@
   "name": "demo",
   "homepage": "https://splicemood.github.io/react-music-player/",
   "description": "The demo of music player",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/splicemood/react-music-player",
