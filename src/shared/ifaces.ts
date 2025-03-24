@@ -2,6 +2,7 @@ import { LoopState } from './enums';
 
 export interface AudioSource {
   src: string;
+  duration?: number;
 }
 
 export interface useGlobalAudioPlayerProps<T extends AudioSource> {

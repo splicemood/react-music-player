@@ -1,5 +1,6 @@
 import { parseWebStream } from 'music-metadata';
 import { maxPercentage, metadataBytesLength } from './consts';
+import { AudioSource } from './ifaces';
 
 function getDurationNative(url: string): Promise<number> {
   return new Promise((resolve, reject) => {
@@ -25,10 +26,14 @@ function getDurationNative(url: string): Promise<number> {
   });
 }
 
-const getAudioDuration = (url: string): Promise<number> => {
+const getAudioDuration = ({ src, duration }: AudioSource): Promise<number> | number => {
+  if (duration) {
+    return duration;
+  }
+
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(url, {
+      const response = await fetch(src, {
         headers: { Range: 'bytes=0-' + metadataBytesLength },
       });
       if (!response.ok) {
@@ -49,7 +54,7 @@ const getAudioDuration = (url: string): Promise<number> => {
       if (metadata.format.duration) {
         resolve(metadata.format.duration);
       } else {
-        const duration = await getDurationNative(url);
+        const duration = await getDurationNative(src);
         resolve(duration);
       }
     } catch (error) {
@@ -58,7 +63,7 @@ const getAudioDuration = (url: string): Promise<number> => {
   });
 };
 
-export const fetchDuration = (songs: string[]): Promise<void | number[]> =>
+export const fetchDuration = (songs: AudioSource[]): Promise<void | number[]> =>
   Promise.all(songs.map(getAudioDuration)).catch((errors) => {
     console.error('Errors occurred while fetching durations:', errors);
   });

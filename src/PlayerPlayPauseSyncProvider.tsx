@@ -123,8 +123,7 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
     const prepareDuration: number[] = Array(playlist.length).fill(0);
     setDurations(prepareDuration);
     if (playlist.length > 0) {
-      const songs = playlist.map((song) => song.src);
-      fetchDuration(songs).then((durations) => {
+      fetchDuration(playlist).then((durations) => {
         if (Array.isArray(durations)) {
           setDurations(durations);
         }
@@ -133,7 +132,7 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
   };
 
   const addDuration = (track: AudioSource) => {
-    fetchDuration([track.src]).then((res) => {
+    fetchDuration([track]).then((res) => {
       if (res) {
         setDurations((prev) => {
           return [...prev, res[0]];

@@ -2,7 +2,7 @@
   "name": "@splicemood/react-music-player",
   "homepage": "https://splicemood.github.io/react-music-player/",
   "description": "The music player that sync all settings between multiple tabs on a single client-side browser session",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/esm/index.mjs",
   "types": "dist/lib/index.d.ts",
@@ -27,9 +27,9 @@
   "license": "MIT",
   "scripts": {
     "deploy": "sh ./scripts/build-package-publish-demo.sh",
-    "build": "NODE_ENV=production rm -Rf dist && tsc && bun build.ts && bun run build:declaration",
+    "build": "NODE_ENV=production rimraf dist && tsc && bun build.ts && bun run build:declaration",
     "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
-    "postbuild": "rm -Rf tsconfig.types.tsbuildinfo",
+    "postbuild": "rimraf tsconfig.types.tsbuildinfo",
     "publish": "npm publish --access public",
     "prettier": "prettier --check \"src/**/*.{ts,tsx}\"",
     "prettier:write": "prettier --write \"src/**/*.{ts,tsx}\""
@@ -43,7 +43,9 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/react": "^19.0.12",
     "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
     "typescript": "^5.7.2"
   }
 }
