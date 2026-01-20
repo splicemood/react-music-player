@@ -42,13 +42,13 @@ const HomePage = () => {
 
   const handleNextPlaylist = useCallback(() => {
     let next = playlistNumber + 1;
-    if (next > 3) next = 1;
+    if (next > 3) {next = 1;}
     setPlaylistNumber(next);
   }, [playlistNumber]);
 
   const handlePrevPlaylist = useCallback(() => {
     let next = playlistNumber - 1;
-    if (next < 1) next = 3;
+    if (next < 1) {next = 3;}
     setPlaylistNumber(next);
   }, [playlistNumber]);
 
@@ -60,7 +60,7 @@ const HomePage = () => {
 
   return (
     <Layout>
-      <Stack gap={'xs'}>
+      <Stack gap="xs">
         <Stack>
           <Badges />
           <Title order={2}>Full Sync Demo</Title>

@@ -15,7 +15,7 @@ export function Layout({ children }: any) {
     [
       'ArrowLeft',
       () => {
-        if (audio.currentTime === minTime) return;
+        if (audio.currentTime === minTime) {return;}
         const newTime = audio.currentTime - timeStep;
         if (newTime < minTime) {
           audio.setUpdateTime(minTime);
@@ -27,7 +27,7 @@ export function Layout({ children }: any) {
     [
       'ArrowRight',
       () => {
-        if (audio.currentTime === audio.maxTime) return;
+        if (audio.currentTime === audio.maxTime) {return;}
         const newTime = audio.currentTime + timeStep;
         if (newTime > audio.maxTime) {
           audio.setUpdateTime(audio.maxTime);
@@ -39,7 +39,7 @@ export function Layout({ children }: any) {
     [
       'ArrowUp',
       () => {
-        if (audio.volumePercent === maxVolume) return;
+        if (audio.volumePercent === maxVolume) {return;}
         const newVolume = audio.volumePercent + volumeStep;
         if (newVolume > maxVolume) {
           audio.setVolumePercent(maxVolume);
@@ -51,7 +51,7 @@ export function Layout({ children }: any) {
     [
       'ArrowDown',
       () => {
-        if (audio.volumePercent === minVolume) return;
+        if (audio.volumePercent === minVolume) {return;}
         const newVolume = audio.volumePercent - volumeStep;
         if (newVolume < minVolume) {
           audio.setVolumePercent(minVolume);
@@ -79,7 +79,7 @@ export function Layout({ children }: any) {
         breakpoint: 'sm',
         collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
       }}
-      padding={'md'}
+      padding="md"
     >
       <AppShell.Header>
         <Group h="100%" px="md">

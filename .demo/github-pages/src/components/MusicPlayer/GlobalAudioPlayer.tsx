@@ -138,21 +138,25 @@ const GlobalAudioPlayer = () => {
 
   const buttons = useMemo(() => {
     const playAndShuffle = [
-      <Group gap={playPauseGap} key={'controls-button'}>
-        <IconButton onClick={onPrevButtonClick} children={<IoPlaySkipBack size={22} />} />
+      <Group gap={playPauseGap} key="controls-button">
+        <IconButton onClick={onPrevButtonClick}>
+          <IoPlaySkipBack size={22} />
+        </IconButton>
         <PlayButton onClick={onPlayButtonClick} playing={audio.isPlaying} />
-        <IconButton onClick={onNextButtonClick} children={<IoPlaySkipForward size={22} />} />
+        <IconButton onClick={onNextButtonClick}>
+          <IoPlaySkipForward size={22} />
+        </IconButton>
       </Group>,
-      <IconButton onClick={toggleShuffle} key={'shuffle-button'}>
+      <IconButton onClick={toggleShuffle} key="shuffle-button">
         <img src={shuffleIcon} alt="shuffle" className="icon" />
       </IconButton>,
     ];
 
     if (dir === 'row') {
       return playAndShuffle;
-    } else {
-      return playAndShuffle.reverse();
     }
+
+    return playAndShuffle.reverse();
   }, [
     dir,
     playPauseGap,
@@ -166,9 +170,9 @@ const GlobalAudioPlayer = () => {
 
   return (
     audio.playlist?.length > 0 && (
-      <Container p={'xs'}>
+      <Container p="xs">
         <Flex direction={dir} gap={sliderGap}>
-          <Group gap={'xs'}>
+          <Group gap="xs">
             {buttons}
 
             <IconButton onClick={toggleRepeat}>
@@ -177,36 +181,36 @@ const GlobalAudioPlayer = () => {
           </Group>
 
           <Stack gap={sliderCoverGap} flex={1}>
-            <Group visibleFrom={'md'} justify={'space-between'} miw={300}>
+            <Group visibleFrom="md" justify="space-between" miw={300}>
               <Image
                 draggable={false}
-                className={'music-cover-art'}
+                className="music-cover-art"
                 src={source || fallbackSrc}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null;
                   currentTarget.src = fallbackSrc;
                 }}
-                alt={'cover art'}
+                alt="cover art"
               />
               <Box flex={1}>
                 <Box miw={180}>
-                  <Text className={'identityText'} fw={500} component={'h5'} truncate>
+                  <Text className="identityText" fw={500} component="h5" truncate>
                     {title}
                   </Text>
-                  <Text className={'identityText'} c={'dimmed'} component={'h6'} truncate>
+                  <Text className="identityText" c="dimmed" component="h6" truncate>
                     {author}
                   </Text>
                 </Box>
               </Box>
               <Duration time={currentTime} seconds={audio.currentTime} maxTime={audio.maxTime} />
             </Group>
-            <Group align={'center'}>
+            <Group align="center">
               <Slider
                 flex={1}
                 min={0}
-                style={{ '--progress-bar': audio.bufferedPercentage + '%' }}
+                style={{ '--progress-bar': `${audio.bufferedPercentage}%` }}
                 data-loading={audio.isLoading}
-                data-timer={true}
+                data-timer
                 max={audio.maxTime}
                 showLabelOnHover={false}
                 label={renderLabel}
@@ -220,14 +224,14 @@ const GlobalAudioPlayer = () => {
                 onFocus={(e) => e.target.blur()}
               />
             </Group>
-            <Group hiddenFrom={'md'} justify={'space-between'}>
+            <Group hiddenFrom="md" justify="space-between">
               <TimeDisplayLabel time={currentTime} />
               <TimeDisplayLabel time={maxTime} />
             </Group>
           </Stack>
 
-          <Group visibleFrom={'md'} align={'center'} gap={'xs'} mb={5}>
-            <ActionIcon color={'text'} variant={'transparent'} onClick={audio.toggleMute}>
+          <Group visibleFrom="md" align="center" gap="xs" mb={5}>
+            <ActionIcon color="text" variant="transparent" onClick={audio.toggleMute}>
               <MuteIcon size={20} />
             </ActionIcon>
 
@@ -236,7 +240,7 @@ const GlobalAudioPlayer = () => {
               min={0}
               step={0.005}
               max={1}
-              label={() => audio.volumePercent + ' %'}
+              label={() => `${audio.volumePercent} %`}
               onFocus={(e) => e.target.blur()}
               value={audio.volume}
               onChange={onVolumeChange}
