@@ -12,7 +12,7 @@ import {
 } from './shared/consts';
 import { LoopState } from './shared/enums';
 import { AudioSource } from './shared/ifaces';
-import { fetchDuration, percentToValue } from './shared/util';
+import { fetchDuration, percentToValue, updateMediaSessionMetadata } from './shared/util';
 
 const ls = window.localStorage;
 
@@ -332,6 +332,16 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
       audioRef.current.addEventListener('progress', handleProgress);
       audioRef.current.addEventListener('timeupdate', handleTrackUpdateTime);
       audioRef.current.addEventListener('durationchange', handleTrackDurationChanged);
+      audioRef.current.addEventListener('pause', () => {
+        setIsPlaying(false);
+      });
+      audioRef.current.addEventListener('play', () => {
+        setIsPlaying(true);
+      });
+
+      if (audioRef.current.readyState >= 1) {
+        handleTrackDurationChanged();
+      }
     }
 
     return () => {
@@ -344,6 +354,32 @@ export const PlayerPlayPauseSyncProvider = ({ children }: any) => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.setActionHandler('play', play);
+      navigator.mediaSession.setActionHandler('pause', pause);
+      navigator.mediaSession.setActionHandler('previoustrack', previous);
+      navigator.mediaSession.setActionHandler('nexttrack', () => next());
+      navigator.mediaSession.setActionHandler('seekto', (details) => {
+        if (details.seekTime !== undefined) {
+          setUpdateTime(details.seekTime);
+        }
+      });
+    }
+  }, [play, pause, previous, next, setUpdateTime]);
+
+  useEffect(() => {
+    if (playlist.length > 0 && playlist[currentTrackIndex]) {
+      updateMediaSessionMetadata(playlist[currentTrackIndex]);
+    }
+  }, [playlist, currentTrackIndex]);
+
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+    }
+  }, [isPlaying, currentTrackIndex]);
 
   const value = {
     play,

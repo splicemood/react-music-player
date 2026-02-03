@@ -71,3 +71,14 @@ export const fetchDuration = (songs: AudioSource[]): Promise<void | number[]> =>
 export const percentToValue = (percent: number) => {
   return Math.round(percent) / maxPercentage;
 };
+
+export const updateMediaSessionMetadata = (track: any) => {
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: track.title || 'Unknown Title',
+      artist: track.author || 'Unknown Artist',
+      album: track.album || '',
+      artwork: track.cover ? [{src: track.cover}] : [{src: '/react-music-player/icons/thumbnail.svg'}],
+    });
+  }
+};
