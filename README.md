@@ -76,10 +76,11 @@
 
 [![React Music Player Video Demo][product-video-demo]](https://splicemood.github.io/react-music-player/)
 
-### Web browsers compatibility (Can I Use >96%)
+### Web browsers compatibility (Can I use >95% browsers across all devices)
 
 - [BroadcastChannel](https://caniuse.com/broadcastchannel)
 - [Window API: storage event](https://caniuse.com/mdn-api_window_storage_event)
+- [MediaSession API](https://caniuse.com/mdn-api_mediasession)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -134,9 +135,45 @@ Player.tsx
 import { useAudio } from "@splicemood/react-music-player"
 
 const Player = () => {
-  const audio = useAudio()
+  const {
+    play,
+    pause,
+    togglePlayPause,
+    next,
+    previous,
+    setVolume,
+    setVolumePercent,
+    mute,
+    unmute,
+    toggleMute,
+    shuffleOn,
+    shuffleOff,
+    toggleShuffle,
+    toggleLoop,
+    addToPlaylist,
+    replacePlaylist,
+    setCurrentTrack,
+    setUpdateTime,
+    setPlaylistId,
+
+    volume,
+    volumePercent,
+    bufferedPercentage,
+    currentPlaylistId,
+    maxTime,
+    playlist,
+    durations,
+    isPlaying,
+    currentTime,
+    currentTrackIndex,
+    repeatMode,
+    isShuffled,
+    isLoading,
+    isMuted,
+  } = useAudio()
   
   // your component visualization using the hook
+  return <></>
 };
 
 export default Player;
